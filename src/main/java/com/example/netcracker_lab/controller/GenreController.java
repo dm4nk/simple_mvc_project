@@ -12,13 +12,11 @@ import java.util.Set;
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 public class GenreController implements Controller<Genre> {
     static GenreDAO genreDAO;
-    static View view;
 
     static GenreController instance = new GenreController();
 
     private GenreController() {
         genreDAO = GenreDAO.getInstance();
-        view = View.getInstance();
     }
 
     private static GenreController getInstance() {

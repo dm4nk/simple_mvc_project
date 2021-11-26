@@ -13,11 +13,9 @@ import java.util.Set;
 public class TrackController implements Controller<Track> {
     static TrackController instance = new TrackController();
     TrackDAO trackDAO;
-    View view;
 
     private TrackController() {
         trackDAO = TrackDAO.getInstance();
-        view = View.getInstance();
     }
 
     private static TrackController getInstance() {
