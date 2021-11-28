@@ -10,6 +10,7 @@ module com.example.netcracker_lab {
     requires org.kordamp.bootstrapfx.core;
     requires eu.hansolo.tilesfx;
     requires lombok;
+    requires java.sql;
 
     opens com.example.netcracker_lab to javafx.fxml;
     exports com.example.netcracker_lab;

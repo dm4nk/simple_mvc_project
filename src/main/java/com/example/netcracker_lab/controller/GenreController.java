@@ -2,10 +2,10 @@ package com.example.netcracker_lab.controller;
 
 import com.example.netcracker_lab.model.GenreDAO;
 import com.example.netcracker_lab.pojo.Genre;
-import com.example.netcracker_lab.view.View;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 
+import java.sql.SQLException;
 import java.util.Optional;
 import java.util.Set;
 
@@ -41,6 +41,11 @@ public class GenreController implements Controller<Genre> {
     @Override
     public Optional<Genre> findById(Long id) {
         return null;
+    }
+
+    @Override
+    public Optional<Genre> findByName(String name) throws SQLException {
+        return Optional.empty();
     }
 
     @Override

@@ -7,20 +7,23 @@ import java.io.Serializable;
 
 @Getter
 @Setter
+@ToString
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Track extends BaseEntity implements Serializable {
     String name;
     String author;
     String album;
-    Long duration;
+    Double duration;
+    Genre genre;
 
     @Builder
-    public Track(Long id, String name, String author, String album, Long duration) {
+    public Track(Integer id, String name, String author, String album, Double duration, Genre genre) {
         super(id);
         this.name = name;
         this.author = author;
         this.album = album;
         this.duration = duration;
+        this.genre = genre;
     }
 }

@@ -2,10 +2,10 @@ package com.example.netcracker_lab.controller;
 
 import com.example.netcracker_lab.model.TrackDAO;
 import com.example.netcracker_lab.pojo.Track;
-import com.example.netcracker_lab.view.View;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 
+import java.sql.SQLException;
 import java.util.Optional;
 import java.util.Set;
 
@@ -40,6 +40,11 @@ public class TrackController implements Controller<Track> {
     @Override
     public Optional<Track> findById(Long id) {
         return null;
+    }
+
+    @Override
+    public Optional<Track> findByName(String name) throws SQLException {
+        return Optional.empty();
     }
 
     @Override
