@@ -2,31 +2,27 @@ package com.example.netcracker_lab.model;
 
 import com.example.netcracker_lab.pojo.Genre;
 import com.example.netcracker_lab.pojo.Track;
-import lombok.AccessLevel;
-import lombok.experimental.FieldDefaults;
 
 import java.sql.*;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
-@FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
-public class TrackDAO implements DAO<Track> {
+public class TrackDAO extends AbstractDAO implements DAO<Track> {
 
-    static String URL = "jdbc:mysql://localhost:3306/musical_schema";
-    static String USER = "root";
-    static String PASSWORD = "123456";
+    private static TrackDAO instance;
 
-    static TrackDAO instance;
-    static Connection connection;
-
-    static PreparedStatement save;
-    static PreparedStatement findByName;
+    private static PreparedStatement save;
+    private static PreparedStatement findByName;
+    private static PreparedStatement delete;
+    private static PreparedStatement deleteById;
+    private static PreparedStatement findAll;
+    private static PreparedStatement findById;
+    private static PreparedStatement update;
 
     static {
         try {
             instance = new TrackDAO();
-            connection = DriverManager.getConnection(URL, USER, PASSWORD);
 
             save = connection.prepareStatement(
                     "INSERT INTO track(name,author,album,duration, genre_id) VALUES(?,?,?,?,?)",
@@ -34,6 +30,22 @@ public class TrackDAO implements DAO<Track> {
 
             findByName = connection.prepareStatement(
                     "SELECT * FROM track WHERE name = ?"
+            );
+            delete = connection.prepareStatement(
+                    "DELETE FROM track WHERE name = ? AND author = ? AND album = ? AND duration = ? AND genre_id = ?"
+            );
+            deleteById = connection.prepareStatement(
+                    "DELETE FROM track WHERE idtrack = ?"
+            );
+            findAll = connection.prepareStatement(
+                    "SELECT * FROM track"
+            );
+            findById = connection.prepareStatement(
+                    "SELECT * FROM track WHERE idtrack = ?"
+            );
+            update = connection.prepareStatement(
+                    "UPDATE track SET name = ?, author = ?, album = ?, duration = ?, genre_id = ? " +
+                            "WHERE name = ? AND author = ? AND album = ? AND duration = ? AND genre_id = ? "
             );
         } catch (SQLException e) {
             e.printStackTrace();
@@ -53,45 +65,65 @@ public class TrackDAO implements DAO<Track> {
         save.setString(2, object.getAuthor());
         save.setString(3, object.getAlbum());
         save.setDouble(4, object.getDuration());
+        save.setInt(5, findGenre(object).getId());
 
-        //это вообще ок? или нужно через контроллер?
-
-        if(object.getGenre().getId() == null){
-            Set<Genre> genreSet = GenreDAO.getInstance().findByName(object.getGenre().getName());
-            if(genreSet.size() != 1) throw new RuntimeException("Unique genre name violation (probably)");
-
-            Genre genre = genreSet.stream().findFirst().orElse(null);
-
-            if(genre == null) throw new NullPointerException("No such genre");
-
-            Integer genreId = genre.getId();
-            save.setInt(5, genreId);
-        }
-        else {
-            save.setInt(5, object.getGenre().getId());
-        }
-
-        int affectedRows = save.executeUpdate();
-
+        save.executeUpdate();
         save.clearParameters();
-
-        //todo: may be strange logic....
         return object;
     }
 
     @Override
-    public void delete(Track object) {
+    public void delete(Track object) throws SQLException {
+        delete.setString(1, object.getName());
+        delete.setString(2, object.getAuthor());
+        delete.setString(3, object.getAlbum());
+        delete.setDouble(4, object.getDuration());
+        delete.setInt(5, findGenre(object).getId());
 
+        delete.executeUpdate();
+        delete.clearParameters();
     }
 
     @Override
-    public Set<Track> findAll() {
-        return null;
+    public void deleteById(Integer id) throws SQLException {
+        deleteById.setInt(1, id);
+        deleteById.executeUpdate();
+        deleteById.clearParameters();
     }
 
     @Override
-    public Optional<Track> findById(Integer id) {
-        return Optional.empty();
+    public Set<Track> findAll() throws SQLException {
+        Set<Track> trackSet = new HashSet<>();
+        ResultSet resultSet = findAll.executeQuery();
+        while (resultSet.next()){
+            trackSet.add(
+              Track.builder()
+                      .id(resultSet.getInt(1))
+                      .name(resultSet.getString(2))
+                      .author(resultSet.getString(3))
+                      .album(resultSet.getString(4))
+                      .duration(resultSet.getDouble(5))
+                      .genre(GenreDAO.getInstance().findById(resultSet.getInt(6)).get())
+                      .build()
+            );
+        }
+        return trackSet;
+    }
+
+    @Override
+    public Optional<Track> findById(Integer id) throws SQLException {
+        findById.setInt(1, id);
+        ResultSet resultSet = findById.executeQuery();
+        resultSet.next();
+        resultSet.clearWarnings();
+        return Optional.ofNullable(Track.builder()
+                .id(resultSet.getInt(1))
+                .name(resultSet.getString(2))
+                .author(resultSet.getString(3))
+                .album(resultSet.getString(4))
+                .duration(resultSet.getDouble(5))
+                .genre(GenreDAO.getInstance().findById(resultSet.getInt(6)).get())
+                .build());
     }
 
     @Override
@@ -119,7 +151,32 @@ public class TrackDAO implements DAO<Track> {
     }
 
     @Override
-    public Track update(Track oldObject, Track newObject) {
-        return null;
+    public Track update(Track oldObject, Track newObject) throws SQLException {
+        update.setString(1, newObject.getName());
+        update.setString(2, newObject.getAuthor());
+        update.setString(3, newObject.getAlbum());
+        update.setDouble(4, newObject.getDuration());
+        update.setInt(5, findGenre(newObject).getId());
+
+        update.setString(6, oldObject.getName());
+        update.setString(7, oldObject.getAuthor());
+        update.setString(8, oldObject.getAlbum());
+        update.setDouble(9, oldObject.getDuration());
+        update.setInt(10, findGenre(oldObject).getId());
+
+        update.executeUpdate();
+        update.clearParameters();
+
+        return newObject;
+    }
+
+    private static Genre findGenre(Track track) throws SQLException {
+        Genre genre = track.getGenre();
+        if(genre.getId() == null){
+            Set<Genre> genreSet = GenreDAO.getInstance().findByName(genre.getName());
+            if(genreSet.size() != 1) throw new RuntimeException("No such genre, or several genres with common name");
+            genre = genreSet.stream().findFirst().get();
+        }
+        return genre;
     }
 }

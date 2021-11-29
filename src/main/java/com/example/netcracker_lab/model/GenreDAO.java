@@ -1,37 +1,50 @@
 package com.example.netcracker_lab.model;
 
 import com.example.netcracker_lab.pojo.Genre;
-import lombok.AccessLevel;
-import lombok.Synchronized;
-import lombok.experimental.FieldDefaults;
 
 import java.sql.*;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
-@FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
-public class GenreDAO implements DAO<Genre> {
+public class GenreDAO extends AbstractDAO implements DAO<Genre> {
 
-    static String URL = "jdbc:mysql://localhost:3306/musical_schema";
-    static String USER = "root";
-    static String PASSWORD = "123456";
+    private static GenreDAO instance;
 
-    static GenreDAO instance = new GenreDAO();
-    static Connection connection;
-    static PreparedStatement save;
-    static PreparedStatement findByName;
+    private static PreparedStatement save;
+    private static PreparedStatement findByName;
+    private static PreparedStatement delete;
+    private static PreparedStatement deleteById;
+    private static PreparedStatement findAll;
+    private static PreparedStatement findById;
+    private static PreparedStatement update;
 
     static {
         try {
             instance = new GenreDAO();
-            connection = DriverManager.getConnection(URL, USER, PASSWORD);
+
             save = connection.prepareStatement(
                     "INSERT INTO genre(name) VALUES(?)",
                     Statement.RETURN_GENERATED_KEYS);
             findByName = connection.prepareStatement(
                     "SELECT * FROM genre WHERE name = ?"
             );
+            delete = connection.prepareStatement(
+                    "DELETE FROM genre WHERE name = ?"
+            );
+            deleteById = connection.prepareStatement(
+                    "DELETE FROM genre WHERE idgenre = ?"
+            );
+            findAll = connection.prepareStatement(
+                    "SELECT * FROM genre"
+            );
+            findById = connection.prepareStatement(
+                    "SELECT * FROM genre WHERE idgenre = ?"
+            );
+            update = connection.prepareStatement(
+                    "UPDATE genre SET name = ? WHERE name = ?"
+            );
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -48,6 +61,7 @@ public class GenreDAO implements DAO<Genre> {
     public Genre save(Genre object) throws SQLException {
         save.setString(1, object.getName());
 
+        //todo: add slf4j later...
         int affectedRows = save.executeUpdate();
 
         //todo: may be strange logic....
@@ -56,24 +70,46 @@ public class GenreDAO implements DAO<Genre> {
     }
 
     @Override
-    @Synchronized
-    public void delete(Genre object) {
-
+    public void delete(Genre object) throws SQLException {
+        delete.setString(1, object.getName());
+        delete.executeUpdate();
+        delete.clearParameters();
     }
 
     @Override
-    public Set<Genre> findAll() {
-        return null;
+    public void deleteById(Integer id) throws SQLException {
+        deleteById.setInt(1, id);
+        deleteById.executeUpdate();
+        deleteById.clearParameters();
     }
 
     @Override
-    public Optional<Genre> findById(Integer id) {
-        return Optional.empty();
+    public Set<Genre> findAll() throws SQLException {
+        Set<Genre> genreSet = new HashSet<>();
+        ResultSet resultSet = findAll.executeQuery();
+        while (resultSet.next()){
+            genreSet.add(
+                    Genre.builder()
+                            .id(resultSet.getInt(1))
+                            .name(resultSet.getString(2))
+                            .build()
+            );
+        }
+        return genreSet;
     }
 
     @Override
-    public Genre update(Genre oldObject, Genre newObject) {
-        return null;
+    public Optional<Genre> findById(Integer id) throws SQLException {
+        findById.setInt(1, id);
+        ResultSet resultSet = findById.executeQuery();
+        resultSet.next();
+        findById.clearParameters();
+        return Optional.ofNullable(
+                Genre.builder()
+                        .id(resultSet.getInt(1))
+                        .name(resultSet.getString(2))
+                        .build()
+        );
     }
 
     @Override
@@ -81,7 +117,6 @@ public class GenreDAO implements DAO<Genre> {
         findByName.setString(1, name);
 
         ResultSet resultSet = findByName.executeQuery();
-        resultSet.next();
 
         Set<Genre> genreSet = new HashSet<>();
 
@@ -95,5 +130,14 @@ public class GenreDAO implements DAO<Genre> {
 
         findByName.clearParameters();
         return genreSet;
+    }
+
+    @Override
+    public Genre update(Genre oldObject, Genre newObject) throws SQLException {
+        update.setString(1, newObject.getName());
+        update.setString(2, oldObject.getName());
+        update.executeUpdate();
+        update.clearParameters();
+        return newObject;
     }
 }
