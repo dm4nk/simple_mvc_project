@@ -3,7 +3,10 @@ package com.example.netcracker_lab.model;
 import com.example.netcracker_lab.pojo.Genre;
 import com.example.netcracker_lab.pojo.Track;
 
-import java.sql.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -59,6 +62,16 @@ public class TrackDAO extends AbstractDAO implements DAO<Track> {
         return instance;
     }
 
+    private static Genre findGenre(Track track) throws SQLException {
+        Genre genre = track.getGenre();
+        if (genre.getId() == null) {
+            Set<Genre> genreSet = GenreDAO.getInstance().findByName(genre.getName());
+            if (genreSet.size() != 1) throw new RuntimeException("No such genre, or several genres with common name");
+            genre = genreSet.stream().findFirst().get();
+        }
+        return genre;
+    }
+
     @Override
     public Track save(Track object) throws SQLException {
         save.setString(1, object.getName());
@@ -95,16 +108,16 @@ public class TrackDAO extends AbstractDAO implements DAO<Track> {
     public Set<Track> findAll() throws SQLException {
         Set<Track> trackSet = new HashSet<>();
         ResultSet resultSet = findAll.executeQuery();
-        while (resultSet.next()){
+        while (resultSet.next()) {
             trackSet.add(
-              Track.builder()
-                      .id(resultSet.getInt(1))
-                      .name(resultSet.getString(2))
-                      .author(resultSet.getString(3))
-                      .album(resultSet.getString(4))
-                      .duration(resultSet.getDouble(5))
-                      .genre(GenreDAO.getInstance().findById(resultSet.getInt(6)).get())
-                      .build()
+                    Track.builder()
+                            .id(resultSet.getInt(1))
+                            .name(resultSet.getString(2))
+                            .author(resultSet.getString(3))
+                            .album(resultSet.getString(4))
+                            .duration(resultSet.getDouble(5))
+                            .genre(GenreDAO.getInstance().findById(resultSet.getInt(6)).get())
+                            .build()
             );
         }
         return trackSet;
@@ -168,15 +181,5 @@ public class TrackDAO extends AbstractDAO implements DAO<Track> {
         update.clearParameters();
 
         return newObject;
-    }
-
-    private static Genre findGenre(Track track) throws SQLException {
-        Genre genre = track.getGenre();
-        if(genre.getId() == null){
-            Set<Genre> genreSet = GenreDAO.getInstance().findByName(genre.getName());
-            if(genreSet.size() != 1) throw new RuntimeException("No such genre, or several genres with common name");
-            genre = genreSet.stream().findFirst().get();
-        }
-        return genre;
     }
 }

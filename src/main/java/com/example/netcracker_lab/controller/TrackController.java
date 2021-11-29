@@ -12,7 +12,7 @@ import java.util.Set;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class TrackController implements Controller<Track> {
     static TrackController instance = new TrackController();
-    TrackDAO trackDAO;
+    final TrackDAO trackDAO;
 
     private TrackController() {
         trackDAO = TrackDAO.getInstance();

@@ -7,8 +7,8 @@ import static java.sql.DriverManager.getConnection;
 
 public abstract class AbstractDAO {
     private static final String URL = "jdbc:mysql://localhost:3306/musical_schema";
-    private static final  String USER = "root";
-    private static final  String PASSWORD = "123456";
+    private static final String USER = "root";
+    private static final String PASSWORD = "123456";
 
     static Connection connection;
 

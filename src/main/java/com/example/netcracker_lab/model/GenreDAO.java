@@ -2,7 +2,10 @@ package com.example.netcracker_lab.model;
 
 import com.example.netcracker_lab.pojo.Genre;
 
-import java.sql.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -87,7 +90,7 @@ public class GenreDAO extends AbstractDAO implements DAO<Genre> {
     public Set<Genre> findAll() throws SQLException {
         Set<Genre> genreSet = new HashSet<>();
         ResultSet resultSet = findAll.executeQuery();
-        while (resultSet.next()){
+        while (resultSet.next()) {
             genreSet.add(
                     Genre.builder()
                             .id(resultSet.getInt(1))
@@ -123,9 +126,9 @@ public class GenreDAO extends AbstractDAO implements DAO<Genre> {
         while (resultSet.next())
             genreSet.add(
                     Genre.builder()
-                    .id(resultSet.getInt(1))
-                    .name(resultSet.getString(2))
-                    .build()
+                            .id(resultSet.getInt(1))
+                            .name(resultSet.getString(2))
+                            .build()
             );
 
         findByName.clearParameters();
