@@ -2,17 +2,14 @@ package com.example.netcracker_lab.model;
 
 import com.example.netcracker_lab.pojo.Genre;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
-public class GenreDAO extends AbstractDAO implements DAO<Genre> {
+public class GenreDAO implements DAO<Genre> {
 
-    private static GenreDAO instance;
+    private static final Connection connection = Connector.getConnection();
 
     private static PreparedStatement save;
     private static PreparedStatement findByName;
@@ -22,9 +19,10 @@ public class GenreDAO extends AbstractDAO implements DAO<Genre> {
     private static PreparedStatement findById;
     private static PreparedStatement update;
 
+    //todo: убрать нафиг статик поле (отовсюду)
     static {
         try {
-            instance = new GenreDAO();
+            //todo: SQL зарпросы вынести это в файлик properties
 
             save = connection.prepareStatement(
                     "INSERT INTO genre(name) VALUES(?)",
@@ -54,10 +52,11 @@ public class GenreDAO extends AbstractDAO implements DAO<Genre> {
     }
 
     private GenreDAO() {
+
     }
 
     public static GenreDAO getInstance() {
-        return instance;
+        return GenreDAOHandler.GENRE_DAO_INSTANCE;
     }
 
     @Override
@@ -142,5 +141,9 @@ public class GenreDAO extends AbstractDAO implements DAO<Genre> {
         update.executeUpdate();
         update.clearParameters();
         return newObject;
+    }
+
+    private static class GenreDAOHandler {
+        public static final GenreDAO GENRE_DAO_INSTANCE = new GenreDAO();
     }
 }

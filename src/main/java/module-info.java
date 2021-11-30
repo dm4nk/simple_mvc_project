@@ -11,9 +11,13 @@ module com.example.netcracker_lab {
     requires eu.hansolo.tilesfx;
     requires lombok;
     requires java.sql;
+    requires com.google.gson;
+    requires jackson.core;
+    requires jackson.databind;
+    requires jackson.annotations;
 
-    opens com.example.netcracker_lab to javafx.fxml;
     exports com.example.netcracker_lab;
     exports com.example.netcracker_lab.controller;
     opens com.example.netcracker_lab.controller to javafx.fxml;
+    exports com.example.netcracker_lab.utility;
 }

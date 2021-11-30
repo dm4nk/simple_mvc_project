@@ -4,10 +4,12 @@ import com.example.netcracker_lab.model.TrackDAO;
 import com.example.netcracker_lab.pojo.Genre;
 import com.example.netcracker_lab.pojo.Track;
 
+import java.io.IOException;
 import java.sql.SQLException;
 
 public class SandBox {
-    public static void main(String[] args) throws SQLException {
+
+    public static void main(String[] args) throws SQLException, IOException {
 
         Genre genre1 = Genre.builder().name("pop").build();
 
@@ -27,6 +29,9 @@ public class SandBox {
                 .genre(genre1)
                 .build();
 
-        TrackDAO.getInstance().update(track1, track2);
+        TrackDAO.getInstance().delete(track2);
+
+        //System.out.println(Properties.getInstance().getTrackDAOProperties().getDelete());
+
     }
 }

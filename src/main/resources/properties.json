@@ -1,0 +1,20 @@
+{
+  "trackDAOProperties": {
+    "save": "INSERT INTO track(name,author,album,duration, genre_id) VALUES(?,?,?,?,?)",
+    "findByName": "SELECT * FROM track WHERE name = ?",
+    "delete": "DELETE FROM track WHERE name = ? AND author = ? AND album = ? AND duration = ? AND genre_id = ?",
+    "deleteById": "DELETE FROM track WHERE idtrack = ?",
+    "findAll": "SELECT * FROM track",
+    "findById": "SELECT * FROM track WHERE idtrack = ?",
+    "update": "UPDATE track SET name = ?, author = ?, album = ?, duration = ?, genre_id = ? WHERE name = ? AND author = ? AND album = ? AND duration = ? AND genre_id = ? "
+  },
+  "genreDAOProperties": {
+    "save": "INSERT INTO genre(name) VALUES(?)",
+    "findByName": "SELECT * FROM genre WHERE name = ?",
+    "delete": "DELETE FROM genre WHERE name = ?",
+    "deleteById": "DELETE FROM genre WHERE idgenre = ?",
+    "findAll": "SELECT * FROM genre",
+    "findById": "SELECT * FROM genre WHERE idgenre = ?",
+    "update": "UPDATE genre SET name = ? WHERE name = ?"
+  }
+}

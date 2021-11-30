@@ -3,17 +3,14 @@ package com.example.netcracker_lab.model;
 import com.example.netcracker_lab.pojo.Genre;
 import com.example.netcracker_lab.pojo.Track;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
-public class TrackDAO extends AbstractDAO implements DAO<Track> {
+public class TrackDAO implements DAO<Track> {
 
-    private static TrackDAO instance;
+    private static final Connection connection = Connector.getConnection();
 
     private static PreparedStatement save;
     private static PreparedStatement findByName;
@@ -23,9 +20,10 @@ public class TrackDAO extends AbstractDAO implements DAO<Track> {
     private static PreparedStatement findById;
     private static PreparedStatement update;
 
+    //todo: убрать нафиг статик поле (отовсюду)
     static {
         try {
-            instance = new TrackDAO();
+            //todo: SQL зарпросы вынести это в файлик properties
 
             save = connection.prepareStatement(
                     "INSERT INTO track(name,author,album,duration, genre_id) VALUES(?,?,?,?,?)",
@@ -56,10 +54,11 @@ public class TrackDAO extends AbstractDAO implements DAO<Track> {
     }
 
     private TrackDAO() {
+
     }
 
     public static TrackDAO getInstance() {
-        return instance;
+        return TrackDAOHandler.TRACK_DAO_INSTANCE;
     }
 
     private static Genre findGenre(Track track) throws SQLException {
@@ -181,5 +180,9 @@ public class TrackDAO extends AbstractDAO implements DAO<Track> {
         update.clearParameters();
 
         return newObject;
+    }
+
+    private static class TrackDAOHandler {
+        public static final TrackDAO TRACK_DAO_INSTANCE = new TrackDAO();
     }
 }
