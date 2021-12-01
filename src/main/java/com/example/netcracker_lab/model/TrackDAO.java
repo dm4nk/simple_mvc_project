@@ -2,8 +2,13 @@ package com.example.netcracker_lab.model;
 
 import com.example.netcracker_lab.pojo.Genre;
 import com.example.netcracker_lab.pojo.Track;
+import com.example.netcracker_lab.utility.Properties;
+import lombok.SneakyThrows;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -12,49 +17,23 @@ public class TrackDAO implements DAO<Track> {
 
     private static final Connection connection = Connector.getConnection();
 
-    private static PreparedStatement save;
-    private static PreparedStatement findByName;
-    private static PreparedStatement delete;
-    private static PreparedStatement deleteById;
-    private static PreparedStatement findAll;
-    private static PreparedStatement findById;
-    private static PreparedStatement update;
+    private final PreparedStatement save;
+    private final PreparedStatement findByName;
+    private final PreparedStatement delete;
+    private final PreparedStatement deleteById;
+    private final PreparedStatement findAll;
+    private final PreparedStatement findById;
+    private final PreparedStatement update;
 
-    //todo: убрать нафиг статик поле (отовсюду)
-    static {
-        try {
-            //todo: SQL зарпросы вынести это в файлик properties
-
-            save = connection.prepareStatement(
-                    "INSERT INTO track(name,author,album,duration, genre_id) VALUES(?,?,?,?,?)",
-                    Statement.RETURN_GENERATED_KEYS);
-
-            findByName = connection.prepareStatement(
-                    "SELECT * FROM track WHERE name = ?"
-            );
-            delete = connection.prepareStatement(
-                    "DELETE FROM track WHERE name = ? AND author = ? AND album = ? AND duration = ? AND genre_id = ?"
-            );
-            deleteById = connection.prepareStatement(
-                    "DELETE FROM track WHERE idtrack = ?"
-            );
-            findAll = connection.prepareStatement(
-                    "SELECT * FROM track"
-            );
-            findById = connection.prepareStatement(
-                    "SELECT * FROM track WHERE idtrack = ?"
-            );
-            update = connection.prepareStatement(
-                    "UPDATE track SET name = ?, author = ?, album = ?, duration = ?, genre_id = ? " +
-                            "WHERE name = ? AND author = ? AND album = ? AND duration = ? AND genre_id = ? "
-            );
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
+    @SneakyThrows
     private TrackDAO() {
-
+        save = connection.prepareStatement(Properties.getInstance().getTrackDAOProperties().getSave());
+        findByName = connection.prepareStatement(Properties.getInstance().getTrackDAOProperties().getFindByName());
+        delete = connection.prepareStatement(Properties.getInstance().getTrackDAOProperties().getDelete());
+        deleteById = connection.prepareStatement(Properties.getInstance().getTrackDAOProperties().getDeleteById());
+        findAll = connection.prepareStatement(Properties.getInstance().getTrackDAOProperties().getFindAll());
+        findById = connection.prepareStatement(Properties.getInstance().getTrackDAOProperties().getFindById());
+        update = connection.prepareStatement(Properties.getInstance().getTrackDAOProperties().getUpdate());
     }
 
     public static TrackDAO getInstance() {

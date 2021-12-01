@@ -1,6 +1,6 @@
 package com.example.netcracker_lab;
 
-import com.example.netcracker_lab.model.TrackDAO;
+import com.example.netcracker_lab.model.GenreDAO;
 import com.example.netcracker_lab.pojo.Genre;
 import com.example.netcracker_lab.pojo.Track;
 
@@ -11,7 +11,8 @@ public class SandBox {
 
     public static void main(String[] args) throws SQLException, IOException {
 
-        Genre genre1 = Genre.builder().name("pop").build();
+        Genre genre1 = Genre.builder().name("rap").build();
+
 
         Track track1 = Track.builder()
                 .name("nice track")
@@ -29,7 +30,7 @@ public class SandBox {
                 .genre(genre1)
                 .build();
 
-        TrackDAO.getInstance().delete(track2);
+        GenreDAO.getInstance().save(genre1);
 
         //System.out.println(Properties.getInstance().getTrackDAOProperties().getDelete());
 

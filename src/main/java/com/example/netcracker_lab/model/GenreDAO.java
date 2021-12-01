@@ -1,8 +1,13 @@
 package com.example.netcracker_lab.model;
 
 import com.example.netcracker_lab.pojo.Genre;
+import com.example.netcracker_lab.utility.Properties;
+import lombok.SneakyThrows;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -11,48 +16,25 @@ public class GenreDAO implements DAO<Genre> {
 
     private static final Connection connection = Connector.getConnection();
 
-    private static PreparedStatement save;
-    private static PreparedStatement findByName;
-    private static PreparedStatement delete;
-    private static PreparedStatement deleteById;
-    private static PreparedStatement findAll;
-    private static PreparedStatement findById;
-    private static PreparedStatement update;
+    private final PreparedStatement save;
+    private final PreparedStatement findByName;
+    private final PreparedStatement delete;
+    private final PreparedStatement deleteById;
+    private final PreparedStatement findAll;
+    private final PreparedStatement findById;
+    private final PreparedStatement update;
 
-    //todo: убрать нафиг статик поле (отовсюду)
-    static {
-        try {
-            //todo: SQL зарпросы вынести это в файлик properties
-
-            save = connection.prepareStatement(
-                    "INSERT INTO genre(name) VALUES(?)",
-                    Statement.RETURN_GENERATED_KEYS);
-            findByName = connection.prepareStatement(
-                    "SELECT * FROM genre WHERE name = ?"
-            );
-            delete = connection.prepareStatement(
-                    "DELETE FROM genre WHERE name = ?"
-            );
-            deleteById = connection.prepareStatement(
-                    "DELETE FROM genre WHERE idgenre = ?"
-            );
-            findAll = connection.prepareStatement(
-                    "SELECT * FROM genre"
-            );
-            findById = connection.prepareStatement(
-                    "SELECT * FROM genre WHERE idgenre = ?"
-            );
-            update = connection.prepareStatement(
-                    "UPDATE genre SET name = ? WHERE name = ?"
-            );
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
+    @SneakyThrows
     private GenreDAO() {
+        Properties properties = Properties.getInstance();
 
+        save = connection.prepareStatement(properties.getGenreDAOProperties().getSave());
+        findByName = connection.prepareStatement(properties.getGenreDAOProperties().getFindByName());
+        delete = connection.prepareStatement(properties.getGenreDAOProperties().getDelete());
+        deleteById = connection.prepareStatement(properties.getGenreDAOProperties().getDeleteById());
+        findAll = connection.prepareStatement(properties.getGenreDAOProperties().getFindAll());
+        findById = connection.prepareStatement(properties.getGenreDAOProperties().getFindById());
+        update = connection.prepareStatement(properties.getGenreDAOProperties().getUpdate());
     }
 
     public static GenreDAO getInstance() {

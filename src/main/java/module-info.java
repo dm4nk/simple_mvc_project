@@ -11,7 +11,6 @@ module com.example.netcracker_lab {
     requires eu.hansolo.tilesfx;
     requires lombok;
     requires java.sql;
-    requires com.google.gson;
     requires jackson.core;
     requires jackson.databind;
     requires jackson.annotations;
