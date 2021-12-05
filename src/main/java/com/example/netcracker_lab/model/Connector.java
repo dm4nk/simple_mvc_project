@@ -1,14 +1,15 @@
 package com.example.netcracker_lab.model;
 
+import com.example.netcracker_lab.utility.Properties;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class Connector {
-    //todo: это запихнуть в пропертис
-    private static final String URL = "jdbc:mysql://localhost:3306/musical_schema";
-    private static final String USER = "root";
-    private static final String PASSWORD = "123456";
+    private static final String URL = Properties.getInstance().getConnectorProperties().getURL();
+    private static final String USER = Properties.getInstance().getConnectorProperties().getUser();
+    private static final String PASSWORD = Properties.getInstance().getConnectorProperties().getPassword();
     private Connection connection;
 
     private Connector() {

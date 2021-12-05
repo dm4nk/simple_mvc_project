@@ -54,6 +54,16 @@ public class TrackDAO implements DAO<Track> {
 
     @Override
     public Track save(Track object) throws SQLException {
+        executeSaveOrDelete(object, save);
+        return object;
+    }
+
+    @Override
+    public void delete(Track object) throws SQLException {
+        executeSaveOrDelete(object, delete);
+    }
+
+    private void executeSaveOrDelete(Track object, PreparedStatement save) throws SQLException {
         save.setString(1, object.getName());
         save.setString(2, object.getAuthor());
         save.setString(3, object.getAlbum());
@@ -62,19 +72,6 @@ public class TrackDAO implements DAO<Track> {
 
         save.executeUpdate();
         save.clearParameters();
-        return object;
-    }
-
-    @Override
-    public void delete(Track object) throws SQLException {
-        delete.setString(1, object.getName());
-        delete.setString(2, object.getAuthor());
-        delete.setString(3, object.getAlbum());
-        delete.setDouble(4, object.getDuration());
-        delete.setInt(5, findGenre(object).getId());
-
-        delete.executeUpdate();
-        delete.clearParameters();
     }
 
     @Override

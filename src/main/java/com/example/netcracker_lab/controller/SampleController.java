@@ -1,19 +1,15 @@
 package com.example.netcracker_lab.controller;
 
-import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
-
-import com.example.netcracker_lab.HelloApplication;
-import com.example.netcracker_lab.HelloController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
 import javafx.scene.control.Button;
-import javafx.event.ActionEvent;
 import javafx.stage.Stage;
+
+import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
 //TODO: при начале реализации контроллера убрать assert'ы
 
@@ -55,12 +51,12 @@ public class SampleController {
 
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("track.fxml"));
-           // loader.setLocation(HelloApplication.class.getResource("track.fxml"));
+            // loader.setLocation(HelloApplication.class.getResource("track.fxml"));
 
             try {
                 loader.load();
 
-            }catch (IOException e){
+            } catch (IOException e) {
                 e.printStackTrace();
             }
 

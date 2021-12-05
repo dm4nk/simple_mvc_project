@@ -26,16 +26,21 @@ public class Properties {
 
     private DAOProperties genreDAOProperties;
     private DAOProperties trackDAOProperties;
+    private ConnectorProperties connectorProperties;
 
-    private Properties(DAOProperties genreDAOProperties, DAOProperties trackDAOProperties) {
+    private Properties(DAOProperties genreDAOProperties,
+                       DAOProperties trackDAOProperties,
+                       ConnectorProperties connectorProperties) {
         this.genreDAOProperties = genreDAOProperties;
         this.trackDAOProperties = trackDAOProperties;
+        this.connectorProperties = connectorProperties;
     }
 
     @JsonCreator
     public static Properties initWithProperties(@JsonProperty("genreDAOProperties") DAOProperties genreDAOProperties,
-                                                @JsonProperty("trackDAOProperties") DAOProperties trackDAOProperties) {
-        return new Properties(genreDAOProperties, trackDAOProperties);
+                                                @JsonProperty("trackDAOProperties") DAOProperties trackDAOProperties,
+                                                @JsonProperty("connectorProperties") ConnectorProperties connectorProperties) {
+        return new Properties(genreDAOProperties, trackDAOProperties, connectorProperties);
     }
 
     public static Properties getInstance() {

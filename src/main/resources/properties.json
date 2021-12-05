@@ -18,5 +18,10 @@
     "findById": "SELECT * FROM genre WHERE idgenre = ?",
     "findByTemplate": "SELECT * FROM genre WHERE name LIKE ?",
     "update": "UPDATE genre SET name = ? WHERE name = ?"
+  },
+  "connectorProperties": {
+    "url": "jdbc:mysql://localhost:3306/musical_schema",
+    "user": "root",
+    "password": "123456"
   }
 }
