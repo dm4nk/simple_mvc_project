@@ -4,11 +4,17 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
 public class HelloController {
-    @FXML
-    private Label welcomeText;
+
+    //TODO: поменять модификаторы доступа если этот контролер будет использоваться
 
     @FXML
-    protected void onHelloButtonClick() {
+    public Label welcomeText;
+
+    @FXML
+    public void onHelloButtonClick() {
         welcomeText.setText("Welcome to JavaFX Application!");
+
+
+        System.out.println("onHelloButtonClick is work");
     }
 }
