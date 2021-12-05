@@ -1,11 +1,12 @@
 package com.example.netcracker_lab;
 
-import com.example.netcracker_lab.model.GenreDAO;
+import com.example.netcracker_lab.model.TrackDAO;
 import com.example.netcracker_lab.pojo.Genre;
 import com.example.netcracker_lab.pojo.Track;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Set;
 
 public class SandBox {
 
@@ -30,9 +31,7 @@ public class SandBox {
                 .genre(genre1)
                 .build();
 
-        GenreDAO.getInstance().save(genre1);
-
-        //System.out.println(Properties.getInstance().getTrackDAOProperties().getDelete());
-
+        Set<Track> trackSet = TrackDAO.getInstance().findByTemplate("n___");
+        trackSet.forEach(System.out::println);
     }
 }

@@ -33,7 +33,8 @@ public class Properties {
     }
 
     @JsonCreator
-    public static Properties initWithProperties(@JsonProperty("genreDAOProperties") DAOProperties genreDAOProperties, @JsonProperty("trackDAOProperties") DAOProperties trackDAOProperties) {
+    public static Properties initWithProperties(@JsonProperty("genreDAOProperties") DAOProperties genreDAOProperties,
+                                                @JsonProperty("trackDAOProperties") DAOProperties trackDAOProperties) {
         return new Properties(genreDAOProperties, trackDAOProperties);
     }
 

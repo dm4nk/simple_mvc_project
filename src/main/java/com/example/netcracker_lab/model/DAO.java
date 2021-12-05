@@ -17,5 +17,7 @@ public interface DAO<T> {
 
     Set<T> findByName(String name) throws SQLException;
 
+    Set<T> findByTemplate(String template) throws SQLException;
+
     T update(T oldObject, T newObject) throws SQLException;
 }

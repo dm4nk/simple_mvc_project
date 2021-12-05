@@ -22,6 +22,7 @@ public class GenreDAO implements DAO<Genre> {
     private final PreparedStatement deleteById;
     private final PreparedStatement findAll;
     private final PreparedStatement findById;
+    private final PreparedStatement findByTemplate;
     private final PreparedStatement update;
 
     @SneakyThrows
@@ -34,6 +35,7 @@ public class GenreDAO implements DAO<Genre> {
         deleteById = connection.prepareStatement(properties.getGenreDAOProperties().getDeleteById());
         findAll = connection.prepareStatement(properties.getGenreDAOProperties().getFindAll());
         findById = connection.prepareStatement(properties.getGenreDAOProperties().getFindById());
+        findByTemplate = connection.prepareStatement(properties.getGenreDAOProperties().getFindByTemplate());
         update = connection.prepareStatement(properties.getGenreDAOProperties().getUpdate());
     }
 
@@ -98,9 +100,17 @@ public class GenreDAO implements DAO<Genre> {
 
     @Override
     public Set<Genre> findByName(String name) throws SQLException {
-        findByName.setString(1, name);
+        return getGenres(name, findByName);
+    }
 
-        ResultSet resultSet = findByName.executeQuery();
+    @Override
+    public Set<Genre> findByTemplate(String template) throws SQLException {
+        return getGenres(template, findByTemplate);
+    }
+
+    private Set<Genre> getGenres(String template, PreparedStatement statement) throws SQLException {
+        statement.setString(1, template);
+        ResultSet resultSet = statement.executeQuery();
 
         Set<Genre> genreSet = new HashSet<>();
 
@@ -112,9 +122,10 @@ public class GenreDAO implements DAO<Genre> {
                             .build()
             );
 
-        findByName.clearParameters();
+        statement.clearParameters();
         return genreSet;
     }
+
 
     @Override
     public Genre update(Genre oldObject, Genre newObject) throws SQLException {

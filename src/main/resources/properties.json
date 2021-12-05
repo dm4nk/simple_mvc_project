@@ -6,6 +6,7 @@
     "deleteById": "DELETE FROM track WHERE idtrack = ?",
     "findAll": "SELECT * FROM track",
     "findById": "SELECT * FROM track WHERE idtrack = ?",
+    "findByTemplate": "SELECT * FROM track WHERE name LIKE ?",
     "update": "UPDATE track SET name = ?, author = ?, album = ?, duration = ?, genre_id = ? WHERE name = ? AND author = ? AND album = ? AND duration = ? AND genre_id = ? "
   },
   "genreDAOProperties": {
@@ -15,6 +16,7 @@
     "deleteById": "DELETE FROM genre WHERE idgenre = ?",
     "findAll": "SELECT * FROM genre",
     "findById": "SELECT * FROM genre WHERE idgenre = ?",
+    "findByTemplate": "SELECT * FROM genre WHERE name LIKE ?",
     "update": "UPDATE genre SET name = ? WHERE name = ?"
   }
 }

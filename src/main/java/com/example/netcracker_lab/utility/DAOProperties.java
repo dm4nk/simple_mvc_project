@@ -12,5 +12,6 @@ public class DAOProperties {
     private String deleteById;
     private String findAll;
     private String findById;
+    private String findByTemplate;
     private String update;
 }

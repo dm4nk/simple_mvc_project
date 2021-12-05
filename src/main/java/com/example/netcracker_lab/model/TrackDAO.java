@@ -23,6 +23,7 @@ public class TrackDAO implements DAO<Track> {
     private final PreparedStatement deleteById;
     private final PreparedStatement findAll;
     private final PreparedStatement findById;
+    private final PreparedStatement findByTemplate;
     private final PreparedStatement update;
 
     @SneakyThrows
@@ -33,6 +34,7 @@ public class TrackDAO implements DAO<Track> {
         deleteById = connection.prepareStatement(Properties.getInstance().getTrackDAOProperties().getDeleteById());
         findAll = connection.prepareStatement(Properties.getInstance().getTrackDAOProperties().getFindAll());
         findById = connection.prepareStatement(Properties.getInstance().getTrackDAOProperties().getFindById());
+        findByTemplate = connection.prepareStatement(Properties.getInstance().getTrackDAOProperties().getFindByTemplate());
         update = connection.prepareStatement(Properties.getInstance().getTrackDAOProperties().getUpdate());
     }
 
@@ -119,9 +121,18 @@ public class TrackDAO implements DAO<Track> {
 
     @Override
     public Set<Track> findByName(String name) throws SQLException {
-        findByName.setString(1, name);
+        return getTracks(name, findByName);
+    }
 
-        ResultSet resultSet = findByName.executeQuery();
+    @Override
+    public Set<Track> findByTemplate(String template) throws SQLException {
+        return getTracks(template, findByTemplate);
+    }
+
+    private Set<Track> getTracks(String template, PreparedStatement statement) throws SQLException {
+        statement.setString(1, template);
+
+        ResultSet resultSet = statement.executeQuery();
 
         Set<Track> trackSet = new HashSet<>();
 
@@ -137,7 +148,7 @@ public class TrackDAO implements DAO<Track> {
                             .build()
             );
 
-        findByName.clearParameters();
+        statement.clearParameters();
         return trackSet;
     }
 
