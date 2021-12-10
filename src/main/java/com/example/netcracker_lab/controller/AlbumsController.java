@@ -49,16 +49,8 @@ public class AlbumsController {
 
     @FXML
     void initialize() {
-        assert albumColumnOfAlbumTable != null : "fx:id=\"albumColumnOfAlbumTable\" was not injected: check your FXML file 'albums.fxml'.";
-        assert albumTable != null : "fx:id=\"albumTable\" was not injected: check your FXML file 'albums.fxml'.";
-        assert choiseField != null : "fx:id=\"choiseField\" was not injected: check your FXML file 'albums.fxml'.";
-        assert durationColumnOfAlbumTable != null : "fx:id=\"durationColumnOfAlbumTable\" was not injected: check your FXML file 'albums.fxml'.";
-        assert findAlbumButton != null : "fx:id=\"findAlbumButton\" was not injected: check your FXML file 'albums.fxml'.";
-        assert findAlbumByNameButton != null : "fx:id=\"findAlbumByNameButton\" was not injected: check your FXML file 'albums.fxml'.";
-        assert findAlbumByNameField != null : "fx:id=\"findAlbumByNameField\" was not injected: check your FXML file 'albums.fxml'.";
-        assert idColumnOfAlbumTable != null : "fx:id=\"idColumnOfAlbumTable\" was not injected: check your FXML file 'albums.fxml'.";
-        assert refreshButton != null : "fx:id=\"refreshButton\" was not injected: check your FXML file 'albums.fxml'.";
-        assert trackColumnOfAlbumTable != null : "fx:id=\"trackColumnOfAlbumTable\" was not injected: check your FXML file 'albums.fxml'.";
+
+
 
     }
 

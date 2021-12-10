@@ -66,6 +66,9 @@ public class TrackController implements Controller<Track> {
     private Button findTrackByIdButton;
 
     @FXML
+    private Button refreshTableButton;
+
+    @FXML
     private TextField findTrackByIdField;
 
     @FXML
@@ -130,7 +133,49 @@ public class TrackController implements Controller<Track> {
 
     @FXML
     void initialize() {
-        //TODO: при начале реализации контроллера убрать assert'ы
+
+        addTrackButton.setOnAction(actionEvent -> {
+            //TODO: code for addTrack button
+
+            //read our values when button was pressed
+            addTrackFieldName.getText();
+            addTrackFieldGenre.getText();
+            addTrackFieldArtist.getText();
+            addTrackFieldTime.getText();
+            addTrackFieldAlbum.getText();
+            //read our values when button was pressed
+
+        });
+
+        refreshTableButton.setOnAction(actionEvent -> {
+            //TODO: code to refresh table when push the button
+        });
+
+        {//find funcs
+            FindTrackByNameButton.setOnAction(actionEvent -> {
+                //TODO: code to find track by name
+                FindTrackByNameField.getText();
+            });
+
+            findTrackByIdButton.setOnAction(actionEvent -> {
+                //TODO: code to find track by id
+                findTrackByIdField.getText();       //read our values when button was pressed
+            });
+        }
+
+
+        { //delete funcs
+            deleteTrackByIdButton.setOnAction(actionEvent -> {
+                //TODO: code to delete track by id
+                deleteTrackByIdField.getId();       //read our values when button was pressed
+
+            });
+
+            deleteTrackByNameButton.setOnAction(actionEvent -> {
+                //TODO: code to delete track by name
+                deleteTrackByNameField.getText();       //read our values when button was pressed
+            });
+        }
 
     }
 
