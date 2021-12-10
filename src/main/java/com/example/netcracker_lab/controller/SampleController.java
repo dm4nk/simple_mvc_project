@@ -43,6 +43,25 @@ public class SampleController {
     @FXML
     void initialize() {
 
+        gotoAlbumButton.setOnAction(event -> {
+            gotoAlbumButton.getScene().getWindow().hide();
+
+            FXMLLoader loaderr = new FXMLLoader();
+            loaderr.setLocation(getClass().getResource("albums.fxml"));
+
+            try {
+                loaderr.load();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            Parent root = loaderr.getRoot();
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.showAndWait();
+
+        });
+
         testButtonOne.setOnAction(event -> {
             System.out.println("test button one is work"); //тест кнопки
         });
