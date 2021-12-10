@@ -17,8 +17,8 @@
             <TextField fx:id="findTrackByIdField" layoutX="189.0" layoutY="347.0" promptText="ID of track" />
             <TextField fx:id="FindTrackByNameField" layoutX="189.0" layoutY="313.0" promptText="Name of Track" />
             <Button fx:id="FindTrackByNameButton" layoutX="7.0" layoutY="313.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="118.0" text="Find track by name" />
-            <Button fx:id="deleteTrackByIdOrNameButton" layoutX="7.0" layoutY="280.0" mnemonicParsing="false" text="Delete track by ID or name" />
-            <TextField fx:id="deleteTrackByIdOrNameField" layoutX="189.0" layoutY="280.0" promptText="Name or ID of track" />
+            <Button fx:id="deleteTrackByIdButton" layoutX="7.0" layoutY="280.0" mnemonicParsing="false" text="Delete track by ID " />
+            <TextField fx:id="deleteTrackByIdField" layoutX="189.0" layoutY="280.0" promptText="ID of track" />
             <TextField fx:id="addTrackFieldName" layoutX="91.0" layoutY="20.0" prefHeight="25.0" prefWidth="105.0" promptText="Name" />
             <Button fx:id="addTrackButton" layoutX="7.0" layoutY="20.0" mnemonicParsing="false" text="Add track" />
             <TextField fx:id="addTrackFieldGenre" layoutX="211.0" layoutY="20.0" prefHeight="25.0" prefWidth="105.0" promptText="Genre" />
@@ -35,6 +35,8 @@
             </TableView>
             <TextField fx:id="addTrackFieldTime" layoutX="452.0" layoutY="20.0" prefHeight="25.0" prefWidth="99.0" promptText="Time" />
             <TextField fx:id="addTrackFieldAlbum" layoutX="562.0" layoutY="20.0" prefHeight="25.0" prefWidth="105.0" promptText="Album" />
+            <TextField fx:id="deleteTrackByNameField" layoutX="518.0" layoutY="280.0" promptText="Name of track" />
+            <Button fx:id="deleteTrackByNameButton" layoutX="384.0" layoutY="280.0" mnemonicParsing="false" text="Delete track by name" />
          </children>
         </AnchorPane>
         <Label layoutX="14.0" layoutY="14.0" prefHeight="93.0" prefWidth="549.0" text="Music Tabe CRUD Track.FXML" textFill="WHITE">

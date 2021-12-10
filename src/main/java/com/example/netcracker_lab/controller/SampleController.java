@@ -6,6 +6,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
+import org.controlsfx.control.action.Action;
 
 import java.io.IOException;
 import java.net.URL;
@@ -46,10 +47,12 @@ public class SampleController {
             System.out.println("test button one is work"); //тест кнопки
         });
 
-        gotoTrackButton.setOnAction(event -> { //переход
+        gotoTrackButton.setOnAction(ActionEvent -> { //переход
             gotoTrackButton.getScene().getWindow().hide();
 
+
             FXMLLoader loader = new FXMLLoader();
+            Parent root = loader.getRoot();
             loader.setLocation(getClass().getResource("track.fxml"));
             // loader.setLocation(HelloApplication.class.getResource("track.fxml"));
 
@@ -60,7 +63,7 @@ public class SampleController {
                 e.printStackTrace();
             }
 
-            Parent root = loader.getRoot();
+
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
             stage.showAndWait();
