@@ -43,6 +43,7 @@ public class GenreController{
     @FXML
     private Button findGenreByIdButton;
 
+
     @FXML
     private TextField findGenreByIdField;
 
@@ -70,6 +71,73 @@ public class GenreController{
     @FXML
     void initialize() {
 
+        addGenreButton.setOnAction(event -> {
+           if (addGenreField.getText().trim().length() == 0) {
+               System.out.println("Field is null");
+           }
+           else {
+               addGenreField.getText();
+               System.out.println("ADD field has been got");
+           }
+
+        });
+
+
+        {//finds
+            findGenreByIdButton.setOnAction(actionEvent -> {
+
+                if(findGenreByIdField.getText().trim().length() == 0){
+                    System.out.println("Field is null");
+                }
+                else {
+                    findGenreByIdField.getText();
+                    System.out.println("ID field has been got");
+                }
+
+
+            });
+
+            findGenreByNameButton.setOnAction(actionEvent -> {
+
+                if(findGenreByNameField.getText().trim().length() == 0) {
+                    System.out.println("Field is null");}
+                else {
+                    findGenreByNameField.getText();
+                    System.out.println("Name field has been got");
+                }
+
+
+            });
+
+            findGenreByTemplateButton.setOnAction(actionEvent -> {
+                if(findGenreByTemplateField.getText().trim().length() == 0){
+                    System.out.println("Field is null");
+                }
+                else {
+                    findGenreByTemplateField.getText();
+                    System.out.println("Template field has been got");
+                }
+
+
+            });
+        }
+
+        deleteGenreByIdButton.setOnAction(actionEvent -> {
+            if (deleteGenreByIdField.getText().trim().length()==0){
+                System.out.println("Field is null");
+            }
+            else{
+                deleteGenreByIdField.getText();
+                System.out.println("Delete field has been got");
+            }
+
+
+        });
+
+        refreshButton.setOnAction(actionEvent -> {
+            GenreTable.refresh();
+
+        });
 
     }
 }

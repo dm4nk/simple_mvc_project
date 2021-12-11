@@ -73,6 +73,12 @@ public class TrackController {
     private TextField findTrackByIdField;
 
     @FXML
+    private Button findTrackByTemplateButton;
+
+    @FXML
+    private TextField templateField;
+
+    @FXML
     private TableView<Track> tableOfTrack;
 
     @FXML
