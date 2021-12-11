@@ -14,7 +14,6 @@ public class Connector {
 
     private Connector() {
         try {
-            //todo: lightConnection
             connection = DriverManager.getConnection(URL, USER, PASSWORD);
         } catch (SQLException e) {
             e.printStackTrace();
