@@ -47,7 +47,7 @@ public class SampleController {
             gotoAlbumButton.getScene().getWindow().hide();
 
             FXMLLoader loaderr = new FXMLLoader();
-            loaderr.setLocation(getClass().getResource("albums.fxml"));
+            loaderr.setLocation(getClass().getResource("genre.fxml"));
 
             try {
                 loaderr.load();

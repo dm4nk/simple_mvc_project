@@ -35,8 +35,8 @@
             </TableView>
             <TextField fx:id="addTrackFieldTime" layoutX="452.0" layoutY="20.0" prefHeight="25.0" prefWidth="99.0" promptText="Time" />
             <TextField fx:id="addTrackFieldAlbum" layoutX="562.0" layoutY="20.0" prefHeight="25.0" prefWidth="105.0" promptText="Album" />
-            <TextField fx:id="deleteTrackByNameField" layoutX="518.0" layoutY="280.0" promptText="Name of track" />
-            <Button fx:id="deleteTrackByNameButton" layoutX="384.0" layoutY="280.0" mnemonicParsing="false" text="Delete track by name" />
+            <Button fx:id="findTrackByTemplateButton" layoutX="368.0" layoutY="313.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="136.0" text="Find track by template" />
+            <TextField fx:id="templateField" layoutX="518.0" layoutY="313.0" promptText="Template" />
          </children>
         </AnchorPane>
         <Label layoutX="14.0" layoutY="14.0" prefHeight="93.0" prefWidth="549.0" text="Music Tabe CRUD Track.FXML" textFill="WHITE">
@@ -45,5 +45,7 @@
             </font>
         </Label>
         <Text layoutX="629.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0.1 version" />
+      <Button fx:id="refreshTableButton" layoutX="629.0" layoutY="48.0" mnemonicParsing="false" text="Refresh" />
+      <Button fx:id="deleteButton" layoutX="567.0" layoutY="49.0" mnemonicParsing="false" text="Delete" />
     </children>
 </AnchorPane>

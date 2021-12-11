@@ -56,11 +56,6 @@ public class TrackController implements Controller<Track> {
     @FXML
     private TextField deleteTrackByIdField;
 
-    @FXML
-    private Button deleteTrackByNameButton;
-
-    @FXML
-    private TextField deleteTrackByNameField;
 
     @FXML
     private Button findTrackByIdButton;
@@ -70,6 +65,16 @@ public class TrackController implements Controller<Track> {
 
     @FXML
     private TextField findTrackByIdField;
+
+    @FXML
+    private Button deleteButton;
+
+    @FXML
+    private TextField templateField;
+
+
+    @FXML
+    private Button findTrackByTemplateButton;
 
     @FXML
     private TableView<?> tableOfTrack;
@@ -170,14 +175,7 @@ public class TrackController implements Controller<Track> {
                 deleteTrackByIdField.getId();       //read our values when button was pressed
 
             });
-
-            deleteTrackByNameButton.setOnAction(actionEvent -> {
-                //TODO: code to delete track by name
-                deleteTrackByNameField.getText();       //read our values when button was pressed
-            });
         }
 
     }
-
-
 }
