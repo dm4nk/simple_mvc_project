@@ -8,9 +8,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 public class GenreDAO implements DAO<Genre> {
 
@@ -70,8 +70,8 @@ public class GenreDAO implements DAO<Genre> {
     }
 
     @Override
-    public Set<Genre> findAll() throws SQLException {
-        Set<Genre> genreSet = new HashSet<>();
+    public List<Genre> findAll() throws SQLException {
+        List<Genre> genreSet = new ArrayList<>();
         ResultSet resultSet = findAll.executeQuery();
         while (resultSet.next()) {
             genreSet.add(
@@ -86,33 +86,37 @@ public class GenreDAO implements DAO<Genre> {
 
     @Override
     public Optional<Genre> findById(Integer id) throws SQLException {
+        Optional<Genre> genre;
+
         findById.setInt(1, id);
         ResultSet resultSet = findById.executeQuery();
-        resultSet.next();
+        if (resultSet.next() == false)
+            genre = Optional.empty();
+        else
+            genre = Optional.ofNullable(
+                    Genre.builder()
+                            .id(resultSet.getInt(1))
+                            .name(resultSet.getString(2))
+                            .build());
         findById.clearParameters();
-        return Optional.ofNullable(
-                Genre.builder()
-                        .id(resultSet.getInt(1))
-                        .name(resultSet.getString(2))
-                        .build()
-        );
+        return genre;
     }
 
     @Override
-    public Set<Genre> findByName(String name) throws SQLException {
+    public List<Genre> findByName(String name) throws SQLException {
         return getGenres(name, findByName);
     }
 
     @Override
-    public Set<Genre> findByTemplate(String template) throws SQLException {
+    public List<Genre> findByTemplate(String template) throws SQLException {
         return getGenres(template, findByTemplate);
     }
 
-    private Set<Genre> getGenres(String template, PreparedStatement statement) throws SQLException {
+    private List<Genre> getGenres(String template, PreparedStatement statement) throws SQLException {
         statement.setString(1, template);
         ResultSet resultSet = statement.executeQuery();
 
-        Set<Genre> genreSet = new HashSet<>();
+        List<Genre> genreSet = new ArrayList<>();
 
         while (resultSet.next())
             genreSet.add(

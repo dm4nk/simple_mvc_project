@@ -18,5 +18,7 @@ module com.example.netcracker_lab {
     exports com.example.netcracker_lab;
     exports com.example.netcracker_lab.controller;
     opens com.example.netcracker_lab.controller to javafx.fxml;
+    exports com.example.netcracker_lab.pojo;
+    opens com.example.netcracker_lab.pojo to javafx.fxml;
     exports com.example.netcracker_lab.utility;
 }

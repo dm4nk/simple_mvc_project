@@ -9,9 +9,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 public class TrackDAO implements DAO<Track> {
 
@@ -45,7 +45,7 @@ public class TrackDAO implements DAO<Track> {
     private static Genre findGenre(Track track) throws SQLException {
         Genre genre = track.getGenre();
         if (genre.getId() == null) {
-            Set<Genre> genreSet = GenreDAO.getInstance().findByName(genre.getName());
+            List<Genre> genreSet = GenreDAO.getInstance().findByName(genre.getName());
             if (genreSet.size() != 1) throw new RuntimeException("No such genre, or several genres with common name");
             genre = genreSet.stream().findFirst().get();
         }
@@ -82,8 +82,8 @@ public class TrackDAO implements DAO<Track> {
     }
 
     @Override
-    public Set<Track> findAll() throws SQLException {
-        Set<Track> trackSet = new HashSet<>();
+    public List<Track> findAll() throws SQLException {
+        List<Track> trackSet = new ArrayList<>();
         ResultSet resultSet = findAll.executeQuery();
         while (resultSet.next()) {
             trackSet.add(
@@ -102,36 +102,41 @@ public class TrackDAO implements DAO<Track> {
 
     @Override
     public Optional<Track> findById(Integer id) throws SQLException {
+        Optional<Track> track;
+
         findById.setInt(1, id);
         ResultSet resultSet = findById.executeQuery();
-        resultSet.next();
-        resultSet.clearWarnings();
-        return Optional.ofNullable(Track.builder()
-                .id(resultSet.getInt(1))
-                .name(resultSet.getString(2))
-                .author(resultSet.getString(3))
-                .album(resultSet.getString(4))
-                .duration(resultSet.getDouble(5))
-                .genre(GenreDAO.getInstance().findById(resultSet.getInt(6)).get())
-                .build());
+        if (resultSet.next() == false)
+            track = Optional.empty();
+        else
+            track = Optional.ofNullable(Track.builder()
+                    .id(resultSet.getInt(1))
+                    .name(resultSet.getString(2))
+                    .author(resultSet.getString(3))
+                    .album(resultSet.getString(4))
+                    .duration(resultSet.getDouble(5))
+                    .genre(GenreDAO.getInstance().findById(resultSet.getInt(6)).get())
+                    .build());
+        findById.clearParameters();
+        return track;
     }
 
     @Override
-    public Set<Track> findByName(String name) throws SQLException {
+    public List<Track> findByName(String name) throws SQLException {
         return getTracks(name, findByName);
     }
 
     @Override
-    public Set<Track> findByTemplate(String template) throws SQLException {
+    public List<Track> findByTemplate(String template) throws SQLException {
         return getTracks(template, findByTemplate);
     }
 
-    private Set<Track> getTracks(String template, PreparedStatement statement) throws SQLException {
+    private List<Track> getTracks(String template, PreparedStatement statement) throws SQLException {
         statement.setString(1, template);
 
         ResultSet resultSet = statement.executeQuery();
 
-        Set<Track> trackSet = new HashSet<>();
+        List<Track> trackSet = new ArrayList<>();
 
         while (resultSet.next())
             trackSet.add(

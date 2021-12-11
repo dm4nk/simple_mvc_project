@@ -6,7 +6,7 @@ import com.example.netcracker_lab.pojo.Track;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.Set;
+import java.util.List;
 
 public class SandBox {
 
@@ -31,7 +31,7 @@ public class SandBox {
                 .genre(genre1)
                 .build();
 
-        Set<Track> trackSet = TrackDAO.getInstance().findByTemplate("n___");
+        List<Track> trackSet = TrackDAO.getInstance().findByTemplate("n___");
         trackSet.forEach(System.out::println);
     }
 }

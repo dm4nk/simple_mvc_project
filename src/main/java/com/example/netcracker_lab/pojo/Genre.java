@@ -7,7 +7,6 @@ import java.io.Serializable;
 
 @Getter
 @Setter
-@ToString
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Genre extends BaseEntity implements Serializable {
@@ -17,5 +16,10 @@ public class Genre extends BaseEntity implements Serializable {
     public Genre(Integer id, String name) {
         super(id);
         this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 }

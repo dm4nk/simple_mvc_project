@@ -10,14 +10,15 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 
 import java.net.URL;
 import java.sql.SQLException;
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
-import java.util.Set;
 
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class TrackController {
@@ -28,7 +29,7 @@ public class TrackController {
     private URL location;
 
     @FXML
-    private Button FindTrackByNameButton;
+    private Button findTrackByNameButton;
 
     @FXML
     private TextField FindTrackByNameField;
@@ -56,12 +57,6 @@ public class TrackController {
 
     @FXML
     private TextField deleteTrackByIdField;
-
-    @FXML
-    private Button deleteTrackByNameButton;
-
-    @FXML
-    private TextField deleteTrackByNameField;
 
     @FXML
     private Button findTrackByIdButton;
@@ -100,7 +95,15 @@ public class TrackController {
     private TableColumn<?, ?> tableOfTrackColumnTime;
 
     @FXML
-    void initialize() {
+    void initialize() throws SQLException {
+        tableOfTrackColumnAlbum.setCellValueFactory(new PropertyValueFactory<>("album"));
+        tableOfTrackColumnArtist.setCellValueFactory(new PropertyValueFactory<>("author"));
+        tableOfTrackColumnGenre.setCellValueFactory(new PropertyValueFactory<>("genre"));
+        tableOfTrackColumnID.setCellValueFactory(new PropertyValueFactory<>("id"));
+        tableOfTrackColumnNameOfTrack.setCellValueFactory(new PropertyValueFactory<>("name"));
+        tableOfTrackColumnTime.setCellValueFactory(new PropertyValueFactory<>("duration"));
+
+        refreshTable();
 
         addTrackButton.setOnAction(actionEvent -> {
             String name = addTrackFieldName.getText();
@@ -129,16 +132,19 @@ public class TrackController {
         });
 
         refreshTableButton.setOnAction(actionEvent -> {
-            //TODO: code to refresh table when push the button
+            try {
+                refreshTable();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         });
 
         {//find funcs
-            FindTrackByNameButton.setOnAction(actionEvent -> {
+            findTrackByNameButton.setOnAction(actionEvent -> {
                 String name = FindTrackByNameField.getText();
                 if (!name.equals("")) {
                     try {
-                        Set<Track> trackSet = TrackDAO.getInstance().findByName(name);
-                        fillTableWithTracks(trackSet);
+                        fillTableWithTracks(TrackDAO.getInstance().findByName(name));
                     } catch (SQLException e) {
                         e.printStackTrace();
                     }
@@ -149,9 +155,9 @@ public class TrackController {
                 String id = findTrackByIdField.getText();
                 if (!id.equals("")) {
                     try {
-                        Set<Track> trackSet = new HashSet<>();
-                        TrackDAO.getInstance().findById(Integer.parseInt(id)).ifPresent(trackSet::add);
-                        fillTableWithTracks(trackSet);
+                        List<Track> trackList = new ArrayList<>();
+                        TrackDAO.getInstance().findById(Integer.parseInt(id)).ifPresent(trackList::add);
+                        fillTableWithTracks(trackList);
                     } catch (SQLException e) {
                         e.printStackTrace();
                     }
@@ -161,12 +167,11 @@ public class TrackController {
 
         { //delete funcs
             deleteTrackByIdButton.setOnAction(actionEvent -> {
-                deleteTrackByIdField.getId();
-
-                String id = deleteTrackByIdField.getId();
+                String id = deleteTrackByIdField.getText();
                 if (!id.equals("")) {
                     try {
                         TrackDAO.getInstance().deleteById(Integer.parseInt(id));
+                        refreshTable();
                     } catch (SQLException e) {
                         e.printStackTrace();
                     }
@@ -175,9 +180,15 @@ public class TrackController {
         }
     }
 
-    private void fillTableWithTracks(Set<Track> tracks) {
-        ObservableList<Track> observableList = new TrackObservableList();
-        observableList.addAll(tracks);
+    private void refreshTable() throws SQLException {
+        List<Track> trackList = TrackDAO.getInstance().findAll();
+        ObservableList<Track> observableList = new TrackObservableList(trackList);
+        tableOfTrack.setItems(observableList);
+        tableOfTrack.refresh();
+    }
+
+    private void fillTableWithTracks(List<Track> tracks) {
+        ObservableList<Track> observableList = new TrackObservableList(tracks);
         tableOfTrack.setItems(observableList);
         tableOfTrack.refresh();
     }

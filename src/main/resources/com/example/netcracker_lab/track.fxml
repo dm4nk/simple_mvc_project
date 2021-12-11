@@ -1,43 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.*?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
-
-<AnchorPane prefHeight="500.0" prefWidth="700.0" style="-fx-background-color: #2b2ca8;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.netcracker_lab.controller.TrackController">
+<AnchorPane prefHeight="500.0" prefWidth="700.0" style="-fx-background-color: #2b2ca8;"
+            xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.example.netcracker_lab.controller.TrackController">
     <children>
         <AnchorPane layoutY="107.0" prefHeight="392.0" prefWidth="700.0" style="-fx-background-color: #4132a8;">
-         <children>
-            <Button fx:id="findTrackByIdButton" layoutX="7.0" layoutY="347.0" mnemonicParsing="false" text="Find track by ID" />
-            <TextField fx:id="findTrackByIdField" layoutX="189.0" layoutY="347.0" promptText="ID of track" />
-            <TextField fx:id="FindTrackByNameField" layoutX="189.0" layoutY="313.0" promptText="Name of Track" />
-            <Button fx:id="FindTrackByNameButton" layoutX="7.0" layoutY="313.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="118.0" text="Find track by name" />
-            <Button fx:id="deleteTrackByIdButton" layoutX="7.0" layoutY="280.0" mnemonicParsing="false" text="Delete track by ID " />
-            <TextField fx:id="deleteTrackByIdField" layoutX="189.0" layoutY="280.0" promptText="ID of track" />
-            <TextField fx:id="addTrackFieldName" layoutX="91.0" layoutY="20.0" prefHeight="25.0" prefWidth="105.0" promptText="Name" />
-            <Button fx:id="addTrackButton" layoutX="7.0" layoutY="20.0" mnemonicParsing="false" text="Add track" />
-            <TextField fx:id="addTrackFieldGenre" layoutX="211.0" layoutY="20.0" prefHeight="25.0" prefWidth="105.0" promptText="Genre" />
-            <TextField fx:id="addTrackFieldArtist" layoutX="331.0" layoutY="20.0" prefHeight="25.0" prefWidth="105.0" promptText="Artist" />
-            <TableView fx:id="tableOfTrack" layoutX="20.0" layoutY="57.0" prefHeight="210.0" prefWidth="661.0">
-              <columns>
-                <TableColumn fx:id="tableOfTrackColumnID" prefWidth="46.0" text="ID" />
-                <TableColumn fx:id="tableOfTrackColumnNameOfTrack" prefWidth="139.0" text="Name of track" />
-                  <TableColumn fx:id="tableOfTrackColumnArtist" prefWidth="131.0" text="Artist" />
-                  <TableColumn fx:id="tableOfTrackColumnTime" text="Time" />
-                  <TableColumn fx:id="tableOfTrackColumnAlbum" prefWidth="119.0" text="Album" />
-                  <TableColumn fx:id="tableOfTrackColumnGenre" prefWidth="145.0" text="Genre" />
-              </columns>
-            </TableView>
-            <TextField fx:id="addTrackFieldTime" layoutX="452.0" layoutY="20.0" prefHeight="25.0" prefWidth="99.0" promptText="Time" />
-            <TextField fx:id="addTrackFieldAlbum" layoutX="562.0" layoutY="20.0" prefHeight="25.0" prefWidth="105.0" promptText="Album" />
-            <Button fx:id="findTrackByTemplateButton" layoutX="368.0" layoutY="313.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="136.0" text="Find track by template" />
-            <TextField fx:id="templateField" layoutX="518.0" layoutY="313.0" promptText="Template" />
-         </children>
+            <children>
+                <Button fx:id="findTrackByIdButton" layoutX="368.0" layoutY="314.0" mnemonicParsing="false"
+                        text="Find track by ID"/>
+                <TextField fx:id="findTrackByIdField" layoutX="518.0" layoutY="313.0" promptText="ID of track"/>
+                <TextField fx:id="FindTrackByNameField" layoutX="189.0" layoutY="313.0" promptText="Name of Track"/>
+                <Button fx:id="findTrackByNameButton" layoutX="7.0" layoutY="313.0" mnemonicParsing="false"
+                        prefHeight="25.0" prefWidth="118.0" text="Find track by name"/>
+                <Button fx:id="deleteTrackByIdButton" layoutX="7.0" layoutY="280.0" mnemonicParsing="false"
+                        text="Delete track by ID "/>
+                <TextField fx:id="deleteTrackByIdField" layoutX="189.0" layoutY="280.0" promptText="ID of track"/>
+                <TextField fx:id="addTrackFieldName" layoutX="91.0" layoutY="20.0" prefHeight="25.0" prefWidth="105.0"
+                           promptText="Name"/>
+                <Button fx:id="addTrackButton" layoutX="7.0" layoutY="20.0" mnemonicParsing="false" text="Add track"/>
+                <TextField fx:id="addTrackFieldGenre" layoutX="211.0" layoutY="20.0" prefHeight="25.0" prefWidth="105.0"
+                           promptText="Genre"/>
+                <TextField fx:id="addTrackFieldArtist" layoutX="331.0" layoutY="20.0" prefHeight="25.0"
+                           prefWidth="105.0" promptText="Artist"/>
+                <TableView fx:id="tableOfTrack" layoutX="20.0" layoutY="57.0" prefHeight="210.0" prefWidth="661.0">
+                    <columns>
+                        <TableColumn fx:id="tableOfTrackColumnID" prefWidth="46.0" text="ID"/>
+                        <TableColumn fx:id="tableOfTrackColumnNameOfTrack" prefWidth="139.0" text="Name of track"/>
+                        <TableColumn fx:id="tableOfTrackColumnArtist" prefWidth="131.0" text="Artist"/>
+                        <TableColumn fx:id="tableOfTrackColumnTime" text="Time"/>
+                        <TableColumn fx:id="tableOfTrackColumnAlbum" prefWidth="119.0" text="Album"/>
+                        <TableColumn fx:id="tableOfTrackColumnGenre" prefWidth="145.0" text="Genre"/>
+                    </columns>
+                </TableView>
+                <TextField fx:id="addTrackFieldTime" layoutX="452.0" layoutY="20.0" prefHeight="25.0" prefWidth="99.0"
+                           promptText="Time"/>
+                <TextField fx:id="addTrackFieldAlbum" layoutX="562.0" layoutY="20.0" prefHeight="25.0" prefWidth="105.0"
+                           promptText="Album"/>
+                <Button fx:id="findTrackByTemplateButton" layoutX="368.0" layoutY="280.0" mnemonicParsing="false"
+                        prefHeight="25.0" prefWidth="136.0" text="Find track by template"/>
+                <TextField fx:id="templateField" layoutX="518.0" layoutY="280.0" promptText="Template"/>
+            </children>
         </AnchorPane>
         <Label layoutX="14.0" layoutY="14.0" prefHeight="93.0" prefWidth="549.0" text="Music Tabe CRUD Track.FXML" textFill="WHITE">
             <font>
