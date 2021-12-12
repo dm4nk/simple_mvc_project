@@ -45,9 +45,10 @@ public class TrackDAO implements DAO<Track> {
     private static Genre findGenre(Track track) throws SQLException {
         Genre genre = track.getGenre();
         if (genre.getId() == null) {
-            List<Genre> genreSet = GenreDAO.getInstance().findByName(genre.getName());
-            if (genreSet.size() != 1) throw new RuntimeException("No such genre, or several genres with common name");
-            genre = genreSet.stream().findFirst().get();
+            List<Genre> genres = GenreDAO.getInstance().findByName(genre.getName());
+            if (genres.size() != 1)
+                throw new RuntimeException("No such genre, or several genres with common name " + genres.size());
+            genre = genres.stream().findFirst().get();
         }
         return genre;
     }
@@ -106,7 +107,7 @@ public class TrackDAO implements DAO<Track> {
 
         findById.setInt(1, id);
         ResultSet resultSet = findById.executeQuery();
-        if (resultSet.next() == false)
+        if (!resultSet.next())
             track = Optional.empty();
         else
             track = Optional.ofNullable(Track.builder()

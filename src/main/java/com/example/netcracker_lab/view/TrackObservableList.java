@@ -3,7 +3,6 @@ package com.example.netcracker_lab.view;
 import com.example.netcracker_lab.pojo.Track;
 import javafx.collections.ObservableListBase;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class TrackObservableList extends ObservableListBase<Track> {
@@ -12,10 +11,6 @@ public class TrackObservableList extends ObservableListBase<Track> {
 
     public TrackObservableList(List<Track> tracks) {
         this.tracks = tracks;
-    }
-
-    public TrackObservableList() {
-        this.tracks = new ArrayList<>();
     }
 
     @Override

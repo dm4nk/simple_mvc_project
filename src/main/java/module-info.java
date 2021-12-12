@@ -20,5 +20,8 @@ module com.example.netcracker_lab {
     opens com.example.netcracker_lab.controller to javafx.fxml;
     exports com.example.netcracker_lab.pojo;
     opens com.example.netcracker_lab.pojo to javafx.fxml;
+    exports com.example.netcracker_lab.model;
+    opens com.example.netcracker_lab.model;
+
     exports com.example.netcracker_lab.utility;
 }

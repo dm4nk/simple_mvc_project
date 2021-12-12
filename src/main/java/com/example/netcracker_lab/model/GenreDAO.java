@@ -90,7 +90,7 @@ public class GenreDAO implements DAO<Genre> {
 
         findById.setInt(1, id);
         ResultSet resultSet = findById.executeQuery();
-        if (resultSet.next() == false)
+        if (!resultSet.next())
             genre = Optional.empty();
         else
             genre = Optional.ofNullable(

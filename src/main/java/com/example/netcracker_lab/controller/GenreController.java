@@ -2,142 +2,170 @@ package com.example.netcracker_lab.controller;
 
 import com.example.netcracker_lab.model.GenreDAO;
 import com.example.netcracker_lab.pojo.Genre;
-import lombok.AccessLevel;
-import lombok.experimental.FieldDefaults;
-
-import java.sql.SQLException;
-import java.util.Optional;
-import java.util.Set;
-import java.net.URL;
-import java.util.ResourceBundle;
+import com.example.netcracker_lab.view.GenreObservableList;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
+
+import java.net.URL;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ResourceBundle;
 
 
-public class GenreController{
+public class GenreController implements Controller<Genre> {
 
+    private final GenreDAO genreDAO;
     @FXML
     private ResourceBundle resources;
-
     @FXML
     private URL location;
-
     @FXML
-    private TableView<?> GenreTable;
-
+    private TableView<Genre> genreTable;
     @FXML
     private Button addGenreButton;
-
     @FXML
     private TextField addGenreField;
-
     @FXML
     private Button deleteGenreByIdButton;
-
     @FXML
     private TextField deleteGenreByIdField;
-
     @FXML
     private Button findGenreByIdButton;
-
-
     @FXML
     private TextField findGenreByIdField;
-
     @FXML
     private Button findGenreByNameButton;
-
     @FXML
     private TextField findGenreByNameField;
-
     @FXML
     private Button findGenreByTemplateButton;
-
     @FXML
     private TextField findGenreByTemplateField;
-
     @FXML
     private TableColumn<?, ?> genreColumnOfGenreTable;
-
     @FXML
     private TableColumn<?, ?> idColumnOfGenreTable;
-
     @FXML
     private Button refreshButton;
 
+    public GenreController(GenreDAO genreDAO) {
+        this.genreDAO = genreDAO;
+    }
+
+    public GenreController() {
+        genreDAO = GenreDAO.getInstance();
+    }
+
     @FXML
-    void initialize() {
+    void initialize() throws SQLException {
+        genreColumnOfGenreTable.setCellValueFactory(new PropertyValueFactory<>("name"));
+        idColumnOfGenreTable.setCellValueFactory(new PropertyValueFactory<>("id"));
+        refreshTable();
 
         addGenreButton.setOnAction(event -> {
-           if (addGenreField.getText().trim().length() == 0) {
-               System.out.println("Field is null");
-           }
-           else {
-               addGenreField.getText();
-               System.out.println("ADD field has been got");
-           }
-
+            String name = addGenreField.getText();
+            try {
+                add(name);
+                refreshTable();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         });
-
 
         {//finds
             findGenreByIdButton.setOnAction(actionEvent -> {
-
-                if(findGenreByIdField.getText().trim().length() == 0){
-                    System.out.println("Field is null");
+                String id = findGenreByIdField.getText();
+                try {
+                    fillTableWithGenres(findById(id));
+                } catch (SQLException e) {
+                    e.printStackTrace();
                 }
-                else {
-                    findGenreByIdField.getText();
-                    System.out.println("ID field has been got");
-                }
-
-
             });
 
             findGenreByNameButton.setOnAction(actionEvent -> {
-
-                if(findGenreByNameField.getText().trim().length() == 0) {
-                    System.out.println("Field is null");}
-                else {
-                    findGenreByNameField.getText();
-                    System.out.println("Name field has been got");
+                String name = findGenreByNameField.getText();
+                try {
+                    fillTableWithGenres(findByName(name));
+                } catch (SQLException e) {
+                    e.printStackTrace();
                 }
-
-
             });
 
             findGenreByTemplateButton.setOnAction(actionEvent -> {
-                if(findGenreByTemplateField.getText().trim().length() == 0){
-                    System.out.println("Field is null");
+                String template = findGenreByTemplateField.getText();
+                try {
+                    fillTableWithGenres(findByTemplate(template));
+                } catch (SQLException e) {
+                    e.printStackTrace();
                 }
-                else {
-                    findGenreByTemplateField.getText();
-                    System.out.println("Template field has been got");
-                }
-
-
             });
         }
 
         deleteGenreByIdButton.setOnAction(actionEvent -> {
-            if (deleteGenreByIdField.getText().trim().length()==0){
-                System.out.println("Field is null");
+            String id = deleteGenreByIdField.getText();
+            try {
+                deleteById(id);
+                refreshTable();
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
-            else{
-                deleteGenreByIdField.getText();
-                System.out.println("Delete field has been got");
-            }
-
-
         });
 
         refreshButton.setOnAction(actionEvent -> {
-            GenreTable.refresh();
-
+            try {
+                refreshTable();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         });
+    }
 
+    public void deleteById(String id) throws SQLException {
+        if (!id.equals(""))
+            genreDAO.deleteById(Integer.parseInt(id));
+    }
+
+    public List<Genre> findByTemplate(String template) throws SQLException {
+        if (!template.equals("")) {
+            return genreDAO.findByTemplate(template);
+        }
+        return new ArrayList<>();
+    }
+
+    public List<Genre> findByName(String name) throws SQLException {
+        if (!name.equals("")) {
+            return genreDAO.findByName(name);
+        }
+        return new ArrayList<>();
+    }
+
+    public List<Genre> findById(String id) throws SQLException {
+        List<Genre> genres = new ArrayList<>();
+        if (!id.equals(""))
+            genreDAO.findById(Integer.parseInt(id)).ifPresent(genres::add);
+        return genres;
+    }
+
+    public void add(String... name) throws SQLException {
+        if (!name[0].equals("")) {
+            Genre genre = Genre.builder().name(name[0]).build();
+            genreDAO.save(genre);
+        }
+    }
+
+    private void refreshTable() throws SQLException {
+        fillTableWithGenres(genreDAO.findAll());
+    }
+
+    private void fillTableWithGenres(List<Genre> genres) {
+        ObservableList<Genre> observableList = new GenreObservableList(genres);
+        genreTable.setItems(observableList);
+        genreTable.refresh();
     }
 }

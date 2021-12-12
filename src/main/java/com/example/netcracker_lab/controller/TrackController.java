@@ -11,88 +11,72 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import lombok.AccessLevel;
-import lombok.experimental.FieldDefaults;
 
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 
-@FieldDefaults(level = AccessLevel.PRIVATE)
-public class TrackController {
+public class TrackController implements Controller<Track> {
+    private final TrackDAO trackDAO;
     @FXML
     private ResourceBundle resources;
-
     @FXML
     private URL location;
-
     @FXML
     private Button findTrackByNameButton;
-
     @FXML
-    private TextField FindTrackByNameField;
-
+    private TextField findTrackByNameFieldText;
     @FXML
     private Button addTrackButton;
-
     @FXML
     private TextField addTrackFieldAlbum;
-
     @FXML
     private TextField addTrackFieldArtist;
-
     @FXML
     private TextField addTrackFieldGenre;
-
     @FXML
     private TextField addTrackFieldName;
-
     @FXML
     private TextField addTrackFieldTime;
-
     @FXML
     private Button deleteTrackByIdButton;
-
     @FXML
     private TextField deleteTrackByIdField;
-
     @FXML
     private Button findTrackByIdButton;
-
     @FXML
     private Button refreshTableButton;
-
     @FXML
     private TextField findTrackByIdField;
-
     @FXML
     private Button findTrackByTemplateButton;
-
     @FXML
     private TextField templateField;
-
     @FXML
     private TableView<Track> tableOfTrack;
-
     @FXML
     private TableColumn<?, ?> tableOfTrackColumnAlbum;
-
     @FXML
     private TableColumn<?, ?> tableOfTrackColumnArtist;
-
     @FXML
     private TableColumn<?, ?> tableOfTrackColumnGenre;
-
     @FXML
     private TableColumn<?, ?> tableOfTrackColumnID;
-
     @FXML
     private TableColumn<?, ?> tableOfTrackColumnNameOfTrack;
-
     @FXML
     private TableColumn<?, ?> tableOfTrackColumnTime;
+
+    public TrackController(TrackDAO trackDAO) {
+        this.trackDAO = trackDAO;
+    }
+
+    public TrackController() {
+        this.trackDAO = TrackDAO.getInstance();
+    }
 
     @FXML
     void initialize() throws SQLException {
@@ -102,37 +86,16 @@ public class TrackController {
         tableOfTrackColumnID.setCellValueFactory(new PropertyValueFactory<>("id"));
         tableOfTrackColumnNameOfTrack.setCellValueFactory(new PropertyValueFactory<>("name"));
         tableOfTrackColumnTime.setCellValueFactory(new PropertyValueFactory<>("duration"));
-
         refreshTable();
 
         addTrackButton.setOnAction(actionEvent -> {
             String name = addTrackFieldName.getText();
-            String genreName = addTrackFieldGenre.getText();
             String author = addTrackFieldArtist.getText();
-            String duration = addTrackFieldTime.getText();
             String album = addTrackFieldAlbum.getText();
-
-            if (!name.equals("") && !genreName.equals("") && !author.equals("") && !duration.equals("") && !album.equals("")) {
-                Genre genre = Genre.builder().name(genreName).build();
-
-                Track track = Track.builder()
-                        .name(name)
-                        .author(author)
-                        .album(album)
-                        .duration(Double.parseDouble(duration))
-                        .genre(genre)
-                        .build();
-
-                try {
-                    TrackDAO.getInstance().save(track);
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-
-        refreshTableButton.setOnAction(actionEvent -> {
+            String duration = addTrackFieldTime.getText();
+            String genreName = addTrackFieldGenre.getText();
             try {
+                add(name, author, album, duration, genreName);
                 refreshTable();
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -141,26 +104,29 @@ public class TrackController {
 
         {//find funcs
             findTrackByNameButton.setOnAction(actionEvent -> {
-                String name = FindTrackByNameField.getText();
-                if (!name.equals("")) {
-                    try {
-                        fillTableWithTracks(TrackDAO.getInstance().findByName(name));
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
+                String name = findTrackByNameFieldText.getText();
+                try {
+                    fillTableWithTracks(findByName(name));
+                } catch (SQLException e) {
+                    e.printStackTrace();
                 }
             });
 
             findTrackByIdButton.setOnAction(actionEvent -> {
                 String id = findTrackByIdField.getText();
-                if (!id.equals("")) {
-                    try {
-                        List<Track> trackList = new ArrayList<>();
-                        TrackDAO.getInstance().findById(Integer.parseInt(id)).ifPresent(trackList::add);
-                        fillTableWithTracks(trackList);
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
+                try {
+                    fillTableWithTracks(findById(id));
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            });
+
+            findTrackByTemplateButton.setOnAction(actionEvent -> {
+                String template = templateField.getText();
+                try {
+                    fillTableWithTracks(findByTemplate(template));
+                } catch (SQLException e) {
+                    e.printStackTrace();
                 }
             });
         }
@@ -168,23 +134,67 @@ public class TrackController {
         { //delete funcs
             deleteTrackByIdButton.setOnAction(actionEvent -> {
                 String id = deleteTrackByIdField.getText();
-                if (!id.equals("")) {
-                    try {
-                        TrackDAO.getInstance().deleteById(Integer.parseInt(id));
-                        refreshTable();
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
+                try {
+                    deleteById(id);
+                    refreshTable();
+                } catch (SQLException e) {
+                    e.printStackTrace();
                 }
             });
+        }
+
+        refreshTableButton.setOnAction(actionEvent -> {
+            try {
+                refreshTable();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+    public void deleteById(String id) throws SQLException {
+        if (!id.equals(""))
+            trackDAO.deleteById(Integer.parseInt(id));
+    }
+
+    public List<Track> findByTemplate(String template) throws SQLException {
+        if (!template.equals("")) {
+            return trackDAO.findByTemplate(template);
+        }
+        return new ArrayList<>();
+    }
+
+    public List<Track> findById(String id) throws SQLException {
+        List<Track> trackList = new ArrayList<>();
+        if (!id.equals(""))
+            trackDAO.findById(Integer.parseInt(id)).ifPresent(trackList::add);
+        return trackList;
+    }
+
+    public List<Track> findByName(String name) throws SQLException {
+        if (!name.equals("")) {
+            return trackDAO.findByName(name);
+        }
+        return new ArrayList<>();
+    }
+
+    public void add(String... args) throws SQLException {
+        if (Arrays.stream(args).noneMatch(arg -> arg.equals(""))) {
+            Genre genre = Genre.builder().name(args[4]).build();
+
+            Track track = Track.builder()
+                    .name(args[0])
+                    .author(args[1])
+                    .album(args[2])
+                    .duration(Double.parseDouble(args[3]))
+                    .genre(genre)
+                    .build();
+            trackDAO.save(track);
         }
     }
 
     private void refreshTable() throws SQLException {
-        List<Track> trackList = TrackDAO.getInstance().findAll();
-        ObservableList<Track> observableList = new TrackObservableList(trackList);
-        tableOfTrack.setItems(observableList);
-        tableOfTrack.refresh();
+        fillTableWithTracks(trackDAO.findAll());
     }
 
     private void fillTableWithTracks(List<Track> tracks) {
