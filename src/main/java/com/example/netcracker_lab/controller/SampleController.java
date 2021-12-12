@@ -1,5 +1,6 @@
 package com.example.netcracker_lab.controller;
 
+import com.example.netcracker_lab.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -33,38 +34,32 @@ public class SampleController {
         gotoGenreButton.setOnAction(event -> {
             gotoGenreButton.getScene().getWindow().hide();
 
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("genre.fxml"));
+            Stage stage = new Stage();
+            FXMLLoader loaderr = new FXMLLoader(Application.class.getResource("genre.fxml"));
 
             try {
-                loader.load();
+                Scene scenee = new Scene(loaderr.load(),700,500);
+                stage.setScene(scenee);
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
-            Parent root = loader.getRoot();
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root));
             stage.showAndWait();
         });
 
         gotoTrackButton.setOnAction(ActionEvent -> { //переход
             gotoTrackButton.getScene().getWindow().hide();
 
-
-            FXMLLoader loader = new FXMLLoader();
-            Parent root = loader.getRoot();
-            loader.setLocation(getClass().getResource("track.fxml"));
+            Stage stage = new Stage();
+            FXMLLoader loader = new FXMLLoader(Application.class.getResource("track.fxml"));
 
             try {
-                loader.load();
+                Scene scene = new Scene(loader.load(),700,500);
+                stage.setScene(scene);
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root));
             stage.showAndWait();
+
         });
     }
 
