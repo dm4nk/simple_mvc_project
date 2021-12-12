@@ -53,5 +53,6 @@
         </Label>
         <Text layoutX="629.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0.1 version"/>
         <Button fx:id="refreshTableButton" layoutX="629.0" layoutY="48.0" mnemonicParsing="false" text="Refresh"/>
+        <Button fx:id="back" layoutX="580.0" layoutY="48.0" mnemonicParsing="false" text="Back"/>
     </children>
 </AnchorPane>

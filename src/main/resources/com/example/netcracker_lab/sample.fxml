@@ -38,9 +38,10 @@
             </Button>
          </children>
       </AnchorPane>
-      <Label layoutX="14.0" layoutY="14.0" prefHeight="93.0" prefWidth="549.0" text="Music Tabe CRUD Sample.FXML" textFill="WHITE">
+      <Label layoutX="14.0" layoutY="14.0" prefHeight="93.0" prefWidth="549.0" text="Music Tabe CRUD sample.FXML"
+             textFill="WHITE">
          <font>
-            <Font name="Leelawadee UI Semilight" size="38.0" />
+            <Font name="Leelawadee UI Semilight" size="38.0"/>
          </font>
       </Label>
       <Text layoutX="629.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0.1 version" />

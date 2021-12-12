@@ -1,16 +1,21 @@
 package com.example.netcracker_lab.controller;
 
+import com.example.netcracker_lab.Application;
 import com.example.netcracker_lab.model.GenreDAO;
 import com.example.netcracker_lab.pojo.Genre;
 import com.example.netcracker_lab.view.GenreObservableList;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -21,6 +26,8 @@ import java.util.ResourceBundle;
 public class GenreController implements Controller<Genre> {
 
     private final GenreDAO genreDAO;
+    @FXML
+    public Button back;
     @FXML
     private ResourceBundle resources;
     @FXML
@@ -123,6 +130,21 @@ public class GenreController implements Controller<Genre> {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
+        });
+
+        back.setOnAction(actionEvent -> {
+            back.getScene().getWindow().hide();
+
+            Stage stage = new Stage();
+            FXMLLoader loaderr = new FXMLLoader(Application.class.getResource("sample.fxml"));
+
+            try {
+                Scene scenee = new Scene(loaderr.load(), 700, 500);
+                stage.setScene(scenee);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            stage.show();
         });
     }
 
