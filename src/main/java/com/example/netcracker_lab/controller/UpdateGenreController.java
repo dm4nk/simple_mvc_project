@@ -35,9 +35,15 @@ public class UpdateGenreController {
                     e.printStackTrace();
                 }
 
-                Stage stage = (Stage) name.getScene().getWindow();
-                stage.close();
+                close();
+            } else {
+                close();
             }
         });
+    }
+
+    private void close() {
+        Stage stage = (Stage) name.getScene().getWindow();
+        stage.close();
     }
 }

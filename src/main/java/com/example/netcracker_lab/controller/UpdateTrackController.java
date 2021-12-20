@@ -35,6 +35,9 @@ public class UpdateTrackController {
             artist.setText(track.getAuthor());
             time.setText(String.valueOf(track.getDuration()));
             album.setText(track.getAlbum());
+        } else {
+            Stage stage = (Stage) update.getScene().getWindow();
+            stage.close();
         }
 
         update.setOnAction(actionEvent -> {
@@ -52,10 +55,15 @@ public class UpdateTrackController {
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
-
-                Stage stage = (Stage) name.getScene().getWindow();
-                stage.close();
+                close();
+            } else {
+                close();
             }
         });
+    }
+
+    private void close() {
+        Stage stage = (Stage) name.getScene().getWindow();
+        stage.close();
     }
 }
