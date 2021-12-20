@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<AnchorPane prefHeight="92.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.2"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.netcracker_lab.controller.UpdateController">
+   <children>
+      <TextField fx:id="name" layoutX="14.0" layoutY="34.0" prefHeight="25.0" prefWidth="94.0" promptText="Name"/>
+      <TextField fx:id="genre" layoutX="120.0" layoutY="34.0" prefHeight="25.0" prefWidth="94.0" promptText="Genre"/>
+      <TextField fx:id="artist" layoutX="226.0" layoutY="34.0" prefHeight="25.0" prefWidth="94.0" promptText="Artist"/>
+      <TextField fx:id="time" layoutX="332.0" layoutY="34.0" prefHeight="25.0" prefWidth="94.0" promptText="Time"/>
+      <TextField fx:id="album" layoutX="438.0" layoutY="34.0" prefHeight="25.0" prefWidth="94.0" promptText="Album"/>
+      <Button fx:id="update" layoutX="542.0" layoutY="34.0" mnemonicParsing="false" text="Update"/>
+   </children>
+</AnchorPane>

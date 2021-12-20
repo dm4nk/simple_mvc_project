@@ -132,9 +132,9 @@ public class GenreDAO implements DAO<Genre> {
 
 
     @Override
-    public Genre update(Genre oldObject, Genre newObject) throws SQLException {
+    public Genre update(Integer id, Genre newObject) throws SQLException {
         update.setString(1, newObject.getName());
-        update.setString(2, oldObject.getName());
+        update.setInt(2, id);
         update.executeUpdate();
         update.clearParameters();
         return newObject;

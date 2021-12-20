@@ -18,5 +18,6 @@ public class Application extends javafx.application.Application {
         stage.setTitle("MDB");
         stage.setScene(scene);
         stage.show();
+
     }
 }

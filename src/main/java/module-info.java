@@ -1,8 +1,7 @@
-module com.example.netcracker_lab {
+open module com.example.netcracker_lab {
     requires javafx.controls;
     requires javafx.fxml;
     requires javafx.web;
-
     requires org.controlsfx.controls;
     requires com.dlsc.formsfx;
     requires validatorfx;
@@ -17,11 +16,7 @@ module com.example.netcracker_lab {
 
     exports com.example.netcracker_lab;
     exports com.example.netcracker_lab.controller;
-    opens com.example.netcracker_lab.controller to javafx.fxml;
     exports com.example.netcracker_lab.pojo;
-    opens com.example.netcracker_lab.pojo to javafx.fxml;
     exports com.example.netcracker_lab.model;
-    opens com.example.netcracker_lab.model;
-
     exports com.example.netcracker_lab.utility;
 }

@@ -3,7 +3,6 @@ package com.example.netcracker_lab.controller;
 import com.example.netcracker_lab.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
@@ -58,7 +57,7 @@ public class SampleController {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            stage.showAndWait();
+            stage.show();
 
         });
     }

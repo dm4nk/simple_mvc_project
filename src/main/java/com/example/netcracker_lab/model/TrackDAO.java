@@ -156,18 +156,14 @@ public class TrackDAO implements DAO<Track> {
     }
 
     @Override
-    public Track update(Track oldObject, Track newObject) throws SQLException {
+    public Track update(Integer id, Track newObject) throws SQLException {
         update.setString(1, newObject.getName());
         update.setString(2, newObject.getAuthor());
         update.setString(3, newObject.getAlbum());
         update.setDouble(4, newObject.getDuration());
         update.setInt(5, findGenre(newObject).getId());
 
-        update.setString(6, oldObject.getName());
-        update.setString(7, oldObject.getAuthor());
-        update.setString(8, oldObject.getAlbum());
-        update.setDouble(9, oldObject.getDuration());
-        update.setInt(10, findGenre(oldObject).getId());
+        update.setInt(6, id);
 
         update.executeUpdate();
         update.clearParameters();

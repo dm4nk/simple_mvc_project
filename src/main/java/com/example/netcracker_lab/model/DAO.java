@@ -19,5 +19,5 @@ public interface DAO<T> {
 
     List<T> findByTemplate(String template) throws SQLException;
 
-    T update(T oldObject, T newObject) throws SQLException;
+    T update(Integer id, T newObject) throws SQLException;
 }
