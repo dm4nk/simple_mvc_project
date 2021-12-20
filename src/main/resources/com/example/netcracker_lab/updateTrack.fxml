@@ -3,7 +3,8 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.AnchorPane?>
 <AnchorPane prefHeight="92.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.2"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.netcracker_lab.controller.UpdateController">
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.example.netcracker_lab.controller.UpdateTrackController">
    <children>
       <TextField fx:id="name" layoutX="14.0" layoutY="34.0" prefHeight="25.0" prefWidth="94.0" promptText="Name"/>
       <TextField fx:id="genre" layoutX="120.0" layoutY="34.0" prefHeight="25.0" prefWidth="94.0" promptText="Genre"/>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<AnchorPane prefHeight="92.0" prefWidth="276.0" xmlns="http://javafx.com/javafx/11.0.2"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.example.netcracker_lab.controller.UpdateGenreController">
+   <children>
+      <TextField fx:id="name" layoutX="29.0" layoutY="34.0" prefHeight="25.0" prefWidth="94.0" promptText="Name"/>
+      <Button fx:id="update" layoutX="172.0" layoutY="34.0" mnemonicParsing="false" text="Update"/>
+   </children>
+</AnchorPane>

@@ -7,10 +7,11 @@ import com.example.netcracker_lab.view.IDHolder;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
 import java.sql.SQLException;
 
-public class UpdateController {
+public class UpdateTrackController {
     @FXML
     public TextField name;
     @FXML
@@ -51,6 +52,9 @@ public class UpdateController {
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
+
+                Stage stage = (Stage) name.getScene().getWindow();
+                stage.close();
             }
         });
     }

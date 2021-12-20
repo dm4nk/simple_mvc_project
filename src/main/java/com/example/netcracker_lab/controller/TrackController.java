@@ -181,7 +181,7 @@ public class TrackController implements Controller<Track> {
 
         updateTrackById.setOnAction(actionEvent -> {
             Stage stage = new Stage();
-            FXMLLoader loaderr = new FXMLLoader(Application.class.getResource("update.fxml"));
+            FXMLLoader loaderr = new FXMLLoader(Application.class.getResource("updateTrack.fxml"));
 
             IDHolder.getInstance().setId(Integer.valueOf(updateTrackByIdField.getText()));
 
