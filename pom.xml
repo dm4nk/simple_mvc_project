@@ -153,7 +153,7 @@
                         <!-- Default configuration for running with: mvn clean javafx:run -->
                         <id>default-cli</id>
                         <configuration>
-                            <mainClass>com.example.netcracker_lab/com.example.netcracker_lab.Application
+                            <mainClass>com.example.netcracker_lab/com.example.simple_mvc_project.Application
                             </mainClass>
                         </configuration>
                     </execution>

@@ -14,9 +14,9 @@ open module com.example.netcracker_lab {
     requires jackson.databind;
     requires jackson.annotations;
 
-    exports com.example.netcracker_lab;
-    exports com.example.netcracker_lab.controller;
-    exports com.example.netcracker_lab.pojo;
-    exports com.example.netcracker_lab.model;
-    exports com.example.netcracker_lab.utility;
+    exports com.example.simple_mvc_project;
+    exports com.example.simple_mvc_project.controller;
+    exports com.example.simple_mvc_project.pojo;
+    exports com.example.simple_mvc_project.model;
+    exports com.example.simple_mvc_project.utility;
 }
